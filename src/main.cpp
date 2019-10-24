@@ -48,9 +48,9 @@ int calcTurning(int Right_distance, int Left_distance, int flazhok){
   }
   if(flazhok == 0){
     if(Right_distance > Left_distance){
-      Turning = 50;}
-    if(Left_distance > Right_distance){
       Turning = -50;}
+    if(Left_distance > Right_distance){
+      Turning = 50;}
   }
   Serial.println(Turning);
   return Turning;
@@ -115,7 +115,7 @@ void loop() {
     timer = millis();
     if (gyro_speed > 100) gyro_speed = 100;
     if (gyro_speed < -10) gyro_speed = -10;
-    // Serial.println(gyro_speed);
+    Serial.println(gyro_speed);
   }
 
   // Зчитуємо дані з усіх сенсорів
@@ -152,23 +152,19 @@ void loop() {
   myServo.write(100 + calcTurning(Right_distance, Left_distance, 1)); // Повертаємо колеса на вирахуваний кут
 
   
-  // Zкщо попереду перешкода
-  if (Center_distance <= 30){
+  // Якщо попереду перешкода
+  if (Center_distance <= 20){
     
     showLight("stop");
 
     myServo.write(100 + calcTurning(Right_distance, Left_distance, 0));
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
-    delay(500);
-    // Зупиняємо рух 
-    // Задаємо червоний колір світла
+    delay(200);
 
-    myServo.write((100 + calcTurning(Right_distance, Left_distance, 0)* -1));
-
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
    }
-   
-  showLight("show");
-  digitalWrite(in1, HIGH);
-  digitalWrite(in2, LOW);   
+
+  showLight("show");  
 }
