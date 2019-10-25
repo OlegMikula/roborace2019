@@ -111,19 +111,19 @@ void loop() {
     }
   }
   if (millis() - timer > 1000) {
-    gyro_speed = (setupgyro - mpu6050.getAngleY()) * 2;
+    gyro_speed = (setupgyro - mpu6050.getAngleY()) * 5;
     timer = millis();
     if (gyro_speed > 100) gyro_speed = 100;
-    if (gyro_speed < -10) gyro_speed = -10;
+    if (gyro_speed < -10) gyro_speed = -30;
     Serial.println(gyro_speed);
   }
 
   // Зчитуємо дані з усіх сенсорів
   PotInfo = analogRead(A6); // Потенціометер 
   // Визначаємо та обмежуємо відстані до перешкод по сторонах
-  Center_distance = distance(5, sens_center) + 4;
+  Center_distance = distance(5, sens_center);
   if(Center_distance > 80) Center_distance = 80;
-  Left_distance = distance(5, 2);
+  Left_distance = distance(5, sens_left);
   if (Left_distance > 80) Left_distance = 80;
   Right_distance = distance(5, sens_right); 
   if (Right_distance > 80) Right_distance = 80;
@@ -153,15 +153,19 @@ void loop() {
 
   
   // Якщо попереду перешкода
-  if (Center_distance <= 20){
+  if (Center_distance <= 40){
     
     showLight("stop");
 
     myServo.write(100 + calcTurning(Right_distance, Left_distance, 0));
+    analogWrite(enA, basicSpeed);
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
+
     delay(200);
 
+    analogWrite(enA, basicSpeed);
+    analogWrite(enA, motorSpeedA);
     digitalWrite(in1, HIGH);
     digitalWrite(in2, LOW);
    }
