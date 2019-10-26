@@ -97,7 +97,6 @@ void setup() {
   analogWrite(enA, basicSpeed);
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW); 
-
 }
 
 void loop() {
@@ -121,8 +120,8 @@ void loop() {
   // Зчитуємо дані з усіх сенсорів
   PotInfo = analogRead(A6); // Потенціометер 
   // Визначаємо та обмежуємо відстані до перешкод по сторонах
-  Center_distance = distance(5, sens_center);
-  if(Center_distance > 80) Center_distance = 80;
+  Center_distance = distance(10, sens_center);
+  if(Center_distance > 50) Center_distance = 50;
   Left_distance = distance(5, sens_left);
   if (Left_distance > 80) Left_distance = 80;
   Right_distance = distance(5, sens_right); 
@@ -164,8 +163,6 @@ void loop() {
 
     delay(200);
 
-    analogWrite(enA, basicSpeed);
-    analogWrite(enA, motorSpeedA);
     digitalWrite(in1, HIGH);
     digitalWrite(in2, LOW);
    }
